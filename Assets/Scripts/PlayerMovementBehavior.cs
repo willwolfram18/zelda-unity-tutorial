@@ -26,7 +26,7 @@ public class PlayerMovementBehavior : MonoBehaviour
     public void OnMovementSupplied(InputAction.CallbackContext context) =>
         _positionChange = context.ReadValue<Vector2>();
 
-    private void Update()
+    private void FixedUpdate()
     {
         MoveCharacter(Time.deltaTime);
     }
