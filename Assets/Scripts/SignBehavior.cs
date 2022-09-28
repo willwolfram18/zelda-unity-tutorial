@@ -2,6 +2,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 
 public class SignBehavior : MonoBehaviour
@@ -35,12 +36,14 @@ public class SignBehavior : MonoBehaviour
     
     private void Start()
     {
-        _dialogText = dialogBox.GetComponentInChildren<TMP_Text>();
+        Guard.EditorNotNull(dialogBox, nameof(dialogBox));
+        Guard.EditorNotNullOrWhiteSpace(signText, nameof(signText));
+        _dialogText = dialogBox.GetRequiredComponentInChildren<TMP_Text>(nameof(dialogBox));
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Trigger entered with {0}", other.gameObject);
+        Debug.Log("Trigger entered with " + other.gameObject);
         if (!other.CompareTag("Player"))
         {
             Debug.Log("Collision is not a player.");
@@ -52,7 +55,7 @@ public class SignBehavior : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log("Trigger exited with {0}", other.gameObject);
+        Debug.Log("Trigger exited with " + other.gameObject);
         if (!other.CompareTag("Player"))
         {
             Debug.Log("Trigger exit is not a player.");
