@@ -12,19 +12,25 @@ public class SignBehavior : MonoBehaviour
     private TMP_Text _dialogText;
 
     [SerializeField]
-    private string signText;
+    [TextArea(2, 4)]
+    private string signText = null!;
 
     private bool _inRangeOfSign;
 
     public void OnInteractActionSubmitted(InputAction.CallbackContext context)
     {
+        if (dialogBox.activeInHierarchy)
+        {
+            DeactivateDialogBox();
+            return;
+        }
+        
         if (!_inRangeOfSign)
         {
             return;
         }
 
-        _dialogText.text = signText;
-        dialogBox.SetActive(true);
+        ActivateDialogBox(signText);
     }
     
     private void Start()
@@ -54,5 +60,14 @@ public class SignBehavior : MonoBehaviour
         }
 
         _inRangeOfSign = false;
+        DeactivateDialogBox();
+    }
+
+    private void DeactivateDialogBox() => dialogBox.SetActive(false);
+
+    private void ActivateDialogBox(string text)
+    {
+        _dialogText.SetText(text);
+        dialogBox.SetActive(true);
     }
 }
